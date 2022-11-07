@@ -10,11 +10,13 @@
     "noImplicitUseStrict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "outDir": "./component",
+    "outDir": "./cjs",
     "removeComments": true,
+    "esModuleInterop": false,
+    "moduleResolution": "node",
     "sourceMap": false,
     "strictNullChecks": true,
-    "target": "es5"
+    "target": "ESNext"
   },
   "files": ["src/component/index.ts", "src/component/metadata.ts"]
 }

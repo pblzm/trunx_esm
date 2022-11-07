@@ -2,15 +2,18 @@
   "name": "trunx",
   "version": "0.42.1",
   "description": "Super Saiyan React components, son of awesome Bulma, implemented in TypeScript",
-  "type": "module",
-  "main": "component/index.js",
+  "main": "./cjs/index.js",
+  "module": "./esm/index.js",
+  "typings": "./esm/index.d.ts",
   "files": [
-    "component"
+    "/esm",
+    "/cjs"
   ],
   "scripts": {
-    "build": "run-s build:lib build:docs",
+    "build": "run-s build:cjs build:esm",
     "build:docs": "run-p generate_docs_bundle_js generate_docs_style generate_pages generate_sitemap",
-    "build:lib": "npm run tsc",
+    "build:cjs": "tsc --declaration",
+    "build:esm": "tsc --declaration -p tsconfig.esm.json",
     "eslint": "eslint --ext .ts,.tsx,.js,.jsx .",
     "generate_docs_bundle_js": "cross-env NODE_ENV=production browserify src/docs/index.js -t babelify -g [ envify --NODE_ENV production ] -g uglifyify | terser --compress --mangle > docs/bundle.js",
     "generate_docs_style": "sass src/docs/sass/style.scss docs/style.css --load-path node_modules --style compressed --no-source-map",
@@ -20,25 +23,13 @@
     "postversion": "git push origin v${npm_package_version}; npm publish; git push origin main",
     "pretsc": "rimraf component",
     "start": "budo src/docs/index.js --dir docs --serve bundle.js --open --live --pushstate -- -t babelify",
-    "test": "run-p test:*",
     "test:bulma-version": "node test/bulma-version.js",
     "test:className-prop": "tsc --jsx react --noEmit --lib dom,es2015 test/className-prop.tsx",
     "test:fallbackUI-prop": "tsc --jsx react --noEmit --lib dom,es2015 test/fallbackUI-prop.tsx",
     "test:no-prop-is-required": "tsc --jsx react --noEmit --lib dom,es2015 test/no-prop-is-required.tsx",
     "test:props-are-exported": "tsc --jsx react --noEmit --lib dom,es2015 test/props-are-exported.ts",
-    "test:types": "tsc --declaration --project . --noemit",
-    "tsc": "tsc --declaration --project ."
+    "test:types": "tsc --declaration --project . --noemit"
   },
-  "lint-staged": {
-    "**/*.{js,scss,ts,tsx}": [
-      "prettier --write"
-    ],
-    "*.{json,md}": "prettier --write"
-  },
-  "pre-commit": [
-    "lint-staged",
-    "test"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fibo/trunx.git"
