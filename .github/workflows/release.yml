@@ -18,6 +18,5 @@ jobs:
         run: npm run build
       - name: Publish
         run: npm publish
-        if: ${{ steps.release.outputs.release_created }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
